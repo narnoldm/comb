@@ -1,0 +1,100 @@
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<sstream>
+
+//using std::string;
+//using std::cout;
+//using std::endl;
+//using std::ifstream;
+
+using namespace::std;
+
+class element
+
+
+class chemTab
+{
+	public:
+	int nSpecies;
+	string *species;
+	double *a, *b, *eA;
+
+	~chemTab(){}
+
+	void loadFromFile(string filename)
+	{
+		ifstream read;
+		read.open(filename.c_str());
+		if(!read)
+		{
+			cout<<"Reaction File not found"<<endl;
+			return;
+		}
+		string str="";
+		while(read)
+		{
+			getline(read,str);
+			str=str.substr(0,str.size()-1);
+			cout<<str<<endl;
+			/*cout<<str.size()<<endl;
+			cout<<str.compare("REACTIONS")<<endl;
+			cout<<str.compare("SPECIES")<<endl;*/
+			if(str.compare("SPECIES")==0)
+			{
+				cout<<"Species_Load()"<<endl;
+				//loadSpecies(read);
+			}
+			if(str.compare("ELEMENTS")==0)
+			{
+				cout<<"ick"<<endl;
+				loadElements(read);
+			}
+		}
+	}
+	void loadElements(ifstream& fin)
+	{
+		string sp;
+		
+	}
+	void loadSpecies(ifstream& fin)
+	{
+		string sp;
+		getline(fin,sp,'\n');
+		sp=sp.substr(0,sp.size()-1);
+		stringstream ns(sp);
+		ns >> nSpecies;
+		getline(fin,sp,'\n');
+                sp=sp.substr(0,sp.size()-1);
+		stringstream iss(sp);
+		string species[ns];
+		for(int i=0;i<nSpecies;i++)
+		{
+			string subs;
+			iss>>subs;
+			cout << "Species: " << subs << endl;
+			//species[i]=subs;
+		}
+		/*while(sp.compare("END")!=0)
+		{
+			cout<<sp<<endl;
+			getline(fin,sp,' ');
+			
+		}*/
+	}
+	
+
+
+};
+
+
+
+
+
+void readChem(string filename)
+{
+
+}
+
+
+

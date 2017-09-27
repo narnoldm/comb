@@ -1,0 +1,22 @@
+&prop_file
+ thermfile = "thermo.chem",
+ tranfile  = "trans.chem",
+ ljfile    = "lennardjones.chem",
+&end
+
+! Methane Air Reaction
+ELEMENTS
+3
+H  O  C
+END
+
+SPECIES
+4
+CH4 O2 H2O CO2
+END
+
+REACTIONS
+1
+CH4+2O2=CO2+2H2O          0.636e11   0.0  -24356.0
+!REV    0.0   0.0   0.0
+END
