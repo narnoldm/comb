@@ -133,57 +133,69 @@ class chemTab
 				}
 				cout<<j<<" "<<plusLoc[j]<<endl;
 			}
-			cout<<reaction.size()<<endl;
+			//cout<<reaction.size()<<endl;
 			plusLoc[numPlus+2]=reaction.size();
 			for(int j=0;j<(numPlus+3);j++)
 			{
 				cout<<j<<" "<<plusLoc[j]<<endl;
 			}
 			//remove coefs
-			cout<<"test: "<<species[1].at(0)<<endl;
-			cout<<"char 1 cast to int "<<(int)('9')<<endl;
+			//cout<<"test: "<<species[1].at(0)<<endl;
+			//cout<<"char 1 cast to int "<<(int)('9')<<endl;
 
 
 			for(int j=0;j<numPlus+2;j++)
 			{	
 				int ae=0;
-				cout<<"plusLoc "<<plusLoc[j]<<endl;
+				//cout<<"plusLoc "<<plusLoc[j]<<endl;
 				if(j>0)
 					ae=1;
-				cout<<"ae "<<ae<<endl;
+				//cout<<"ae "<<ae<<endl;
 
 
 
 				for(int n=0;n<nSpecies;n++)
 				{
-					cout<<"comparing "<<species[n]<<" with "<<reaction.substr(plusLoc[j]+ae,plusLoc[j+1]-plusLoc[j]-ae)<<endl;
+					//cout<<"comparing "<<species[n]<<" with "<<reaction.substr(plusLoc[j]+ae,plusLoc[j+1]-plusLoc[j]-ae)<<endl;
 					int coefdig=0;
-					cout<<(plusLoc[j]+ae)<<" "<<(plusLoc[j+1]-ae)<<endl;
+					//cout<<(plusLoc[j]+ae)<<" "<<(plusLoc[j+1]-ae)<<endl;
 					for(int m=(plusLoc[j]+ae);m<(plusLoc[j+1]-ae);m++)
-					{	cout<<reaction.at(m)<<endl;
+					{	//cout<<reaction.at(m)<<endl;
 						if(((int)(reaction.at(m))>=(int)('0'))&&((int)(reaction.at(m))<=(int)('9')))
-						{	cout<<"YO"<<endl;
+						{	//cout<<"YO"<<endl;
 							coefdig++;
 						}
 						else
 							break;
 
 					}
-					cout<<"coef dig is"<<coefdig<<endl;
-					cout<<species[n].compare(reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae))<<endl;
-					if(species[n].compare(reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae))==0)
+					//cout<<"coef dig is"<<coefdig<<endl;
+					//cout<<species[n].compare(reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae-coefdig))<<endl;
+					//cout<<reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae-coefdig)<<"lol"<<endl;
+					if(species[n].compare(reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae-coefdig))==0)
 					{
-						cout<<"bleh"<<endl;
-						if(coefdig!=1)
+				//		cout<<"bleh"<<endl;
+						if(coefdig>0)
+						{
 							if(plusLoc[j]>=equalsPos)
-								nu2[nSpecies*i+n]=(int)reaction.at(plusLoc[j]+1+ae)-'0';
-							else
-								nu1[nSpecies*i+n]=(int)reaction.at(plusLoc[j]+1+ae)-'0';
+							{	nu2[nSpecies*i+n]=(int)reaction.at(plusLoc[j]+ae)-'0';
+								//cout<<"nu2["<<nSpecies*i+n<<"]="<<nu2[nSpecies*i+n]<<endl;
+							}
+							else{
+								nu1[nSpecies*i+n]=(int)(reaction.at(plusLoc[j]+ae)-'0');
+								//cout<<"yall"<< reaction.at(plusLoc[j]+ae)<<endl;
+							}
+						}
 						else
+						{
+				//			cout<<"wut"<<endl;
 							if(plusLoc[j]>=equalsPos)
                                                                 nu2[nSpecies*i+n]=1;
-                                                        else
+                                                        else{
                                                                 nu1[nSpecies*i+n]=1;
+								//cout<<"huh"<<endl;
+							}
+						}
 					}
 
 
@@ -193,11 +205,22 @@ class chemTab
 			for(int m=0;m<mReactions;m++)
 				for (int n=0;n<nSpecies;n++)
 					cout<<"nu1[m][n]="<<nu1[m*nSpecies+n]<<endl;
-			for(int j=0;j<nSpecies;j++)
+
+			for(int m=0;m<mReactions;m++)
+                                for (int n=0;n<nSpecies;n++)
+                                        cout<<"nu2[m][n]="<<nu2[m*nSpecies+n]<<endl;
+
+			for(int m=0;m<mReactions;m++)
+                                for (int n=0;n<nSpecies;n++)
+				{
+					nuT[m*nSpecies+n]=nu2[m*nSpecies+n]-nu1[m*nSpecies+n];
+                                        cout<<"nuT[m][n]="<<nuT[m*nSpecies+n]<<endl;
+				}
+			/*for(int j=0;j<nSpecies;j++)
 			{
 				loc=reaction.find(species[j]);
 				cout<<"Species: "<<species[j]<<" found at ps"<<loc<<endl;
-			}
+			}*/
 		}
         }
 
