@@ -1,14 +1,17 @@
 #include<iostream>
-#include"readChem.cpp"
-#include"readTherm.cpp"
+/*#include"readChem.cpp"
+#include"readTherm.cpp"*/
+#include"nEqComb.cpp"
 using std::cout;
 using std::string;
 using std::endl;
 
 int main()
 {
-	chemTab *cT;
+	/*chemTab *cT;
 	thermDat *tT;
+
+	reactor *R;
 
 	cT =new chemTab("global1.chem");
 	cout<<"HI: Chem Table Initialized"<<endl;
@@ -23,7 +26,12 @@ int main()
 	cout<<cT->species[0]<<endl;
 
 
-	tT=new thermDat("NASAtherm.dat",cT->nSpecies,(cT->species));
+	tT=new thermDat("NASAtherm.dat",cT->nSpecies,(cT->species));*/
+	
+	nEqComb nE= nEqComb("global1.chem","NASAtherm.dat");
+
+	
+
 
 	return 0;
 
