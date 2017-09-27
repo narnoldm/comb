@@ -80,6 +80,24 @@ class chemTab
 		size_t equalsPos;
 		size_t plusPos;
 		int numPlus=0,equalLoc;
+		
+		nu1=new double[nSpecies*mReactions];
+		nu2=new double[nSpecies*mReactions];
+		nuT=new double[nSpecies*mReactions];
+
+		nu1[1*nSpecies+1]=0;
+		cout<<"nu[1][1]="<<nu1[1*nSpecies+1]<<endl;
+
+
+		for(int m=0;m<mReactions;m++)
+                                for (int n=0;n<nSpecies;n++)
+                                {
+					nu1[n+m*nSpecies]=0;
+					nu2[n+m*nSpecies]=0;
+					nuT[n+m*nSpecies]=0;
+				}
+
+
 
 		for(int i=0;i<mReactions;i++)
 		{
@@ -101,17 +119,19 @@ class chemTab
 			cout<<"size of plusLoc should be "<<(numPlus+3)<<endl;
 			cout<<"size of plusLoc is "<<sizeof(plusLoc)<<endl;
 			plusLoc[0]=0;
-			for(int j=1;j<(numPlus+3);j++)
-			{	int ae=0;
+			int ae=0;
+			for(int j=1;j<(numPlus+2);j++)
+			{	if(j==1)
+					ae=0;
 				plusLoc[j+ae]=reaction.find("+",plusLoc[j-1]+1);
-				if((plusLoc[j]>equalsPos)&&(ae==0))
+				if((plusLoc[j]>equalsPos)&&(ae!=1))
 				{
 					plusLoc[j+1]=plusLoc[j];
 					plusLoc[j]=equalsPos;
-					cout<<plusLoc[j]<<endl;
+					cout<<"hi"<<endl;
 					ae=1;
 				}
-				cout<<plusLoc[j]<<endl;
+				cout<<j<<" "<<plusLoc[j]<<endl;
 			}
 			cout<<reaction.size()<<endl;
 			plusLoc[numPlus+2]=reaction.size();
@@ -127,27 +147,52 @@ class chemTab
 			for(int j=0;j<numPlus+2;j++)
 			{	
 				int ae=0;
-				cout<<plusLoc[j]<<endl;
+				cout<<"plusLoc "<<plusLoc[j]<<endl;
 				if(j>0)
 					ae=1;
-				cout<<ae<<endl;
+				cout<<"ae "<<ae<<endl;
 
 
 
 				for(int n=0;n<nSpecies;n++)
 				{
 					cout<<"comparing "<<species[n]<<" with "<<reaction.substr(plusLoc[j]+ae,plusLoc[j+1]-plusLoc[j]-ae)<<endl;
-					
-					for(int m=(plusLoc[j]+ae);m<(plusLoc[j+1]-plusLoc[j]-ae);m++)
+					int coefdig=0;
+					cout<<(plusLoc[j]+ae)<<" "<<(plusLoc[j+1]-ae)<<endl;
+					for(int m=(plusLoc[j]+ae);m<(plusLoc[j+1]-ae);m++)
 					{	cout<<reaction.at(m)<<endl;
 						if(((int)(reaction.at(m))>=(int)('0'))&&((int)(reaction.at(m))<=(int)('9')))
-							cout<<"YO"<<endl;
+						{	cout<<"YO"<<endl;
+							coefdig++;
+						}
+						else
+							break;
+
+					}
+					cout<<"coef dig is"<<coefdig<<endl;
+					cout<<species[n].compare(reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae))<<endl;
+					if(species[n].compare(reaction.substr(plusLoc[j]+ae+coefdig,plusLoc[j+1]-plusLoc[j]-ae))==0)
+					{
+						cout<<"bleh"<<endl;
+						if(coefdig!=1)
+							if(plusLoc[j]>=equalsPos)
+								nu2[nSpecies*i+n]=(int)reaction.at(plusLoc[j]+1+ae)-'0';
+							else
+								nu1[nSpecies*i+n]=(int)reaction.at(plusLoc[j]+1+ae)-'0';
+						else
+							if(plusLoc[j]>=equalsPos)
+                                                                nu2[nSpecies*i+n]=1;
+                                                        else
+                                                                nu1[nSpecies*i+n]=1;
 					}
 
-					cout<<species[n].compare(reaction.substr(plusLoc[j]+ae,plusLoc[j+1]-plusLoc[j]-ae))<<endl;
+
+
 				}
 			}
-
+			for(int m=0;m<mReactions;m++)
+				for (int n=0;n<nSpecies;n++)
+					cout<<"nu1[m][n]="<<nu1[m*nSpecies+n]<<endl;
 			for(int j=0;j<nSpecies;j++)
 			{
 				loc=reaction.find(species[j]);
