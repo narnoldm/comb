@@ -14,7 +14,7 @@ using namespace::std;
 class thermDat
 {
 	public:
-	double *ah,*ac;
+	double *ah,*ac,*hf;
 	double *mw;
 	int ns;
 	bool *found;
@@ -30,6 +30,7 @@ class thermDat
 		ah=new double[7*ns];
 		ac=new double[7*ns];
 		mw=new double[ns];
+		hf=new double[ns];
 		loadData(filename,ns,sp);
 		cout<<"Therm Data Ready()"<<endl;
 	}
@@ -70,7 +71,7 @@ class thermDat
 						skipLines(1);
 						read>>ah[7*n+5]>>ah[7*n+6]>>ac[7*n]>>ac[7*n+1]>>ac[7*n+2];
 						skipLines(1);
-						read>>ac[7*n+3]>>ac[7*n+4]>>ac[7*n+5]>>ac[7*n+6];
+						read>>ac[7*n+3]>>ac[7*n+4]>>ac[7*n+5]>>ac[7*n+6]>>hf[n];
 						skipLines(1);
 						cout<<sp[n]<<" Loaded"<<endl;
 						cout<<"MW= "<<mw[n]<<endl;

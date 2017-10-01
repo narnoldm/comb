@@ -15,8 +15,7 @@ class chemTab
 	public:
 	int nSpecies,mReactions;
 	string *species;
-	
-	double *a, *b, *eA;
+	double *a, *b, *eA,*mn;
 	double *nu1,*nu2,*nuT;
 	chemTab(string filename)
 	{
@@ -24,7 +23,8 @@ class chemTab
 	}
 
 
-	~chemTab(){}
+	~chemTab()
+	{}
 
 	void loadFromFile(string filename)
 	{
@@ -72,8 +72,7 @@ class chemTab
 		a=new double[mReactions];
 		b=new double[mReactions];
 		eA=new double[mReactions];
-
-		string reaction;
+		string reaction="";
 		size_t loc,*plusLoc;
 		string plus;
 		string equals;
@@ -84,6 +83,7 @@ class chemTab
 		nu1=new double[nSpecies*mReactions];
 		nu2=new double[nSpecies*mReactions];
 		nuT=new double[nSpecies*mReactions];
+		mn =new double[mReactions*nSpecies];
 
 		nu1[1*nSpecies+1]=0;
 		cout<<"nu[1][1]="<<nu1[1*nSpecies+1]<<endl;
@@ -102,8 +102,10 @@ class chemTab
 		for(int i=0;i<mReactions;i++)
 		{
 			fin>>reaction>>a[i]>>b[i]>>eA[i];
+			for(int n=0;n<nSpecies;n++)
+			{	fin>>mn[i+n];
+				cout<<mn[i+n]<<endl;}
 			cout<<reaction<<endl<<a[i]<<endl<<b[i]<<endl<<eA[i]<<endl;
-			
 			equalsPos=reaction.find("=");
 			cout<<"equals found at: "<<equalsPos<<endl;
 			plusPos=reaction.find("+");

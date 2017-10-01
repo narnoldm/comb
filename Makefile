@@ -10,8 +10,8 @@ DEP= readChem.o\
 
 all: main
 
-main: 
-	$(CXX) $(CXXGLAGS) $(SDIR)/main.cpp -o $(BDIR)/main.exe
+main:
+	$(CXX) $(CXXFLAGS) $(SDIR)/main.cpp -o $(BDIR)/main.exe
 
 
 
